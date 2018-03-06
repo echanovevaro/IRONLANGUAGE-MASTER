@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from "rxjs/Rx";
-import { SessionService } from "./services/session.service";
+import { SessionService } from './services/session.service';
 import { Router } from '@angular/router';
 import { NavigationEnd } from '@angular/router';
-import { ChatService } from './services/chat.service';
+
 
 @Component({
   selector: 'app-root',
@@ -11,36 +10,28 @@ import { ChatService } from './services/chat.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  constructor(private sessionService: SessionService, private router: Router, private chatService: ChatService) { }
+  constructor(private sessionService: SessionService, private router: Router) { }
   userLogged: boolean = false;
-  id: string = "";
-  newMessages = 0;
   connection;
 
   ngOnInit() {
     this.router.events.subscribe((e: any) => {
       if (e instanceof NavigationEnd) {
-        this.initialise();
+        this.actualize();
       }
     });
   }
 
-  initialise() {
+
+
+
+  actualize(){
     this.sessionService.isLogged()
-      .subscribe(
-        (user) => {
-          if (user) {
-            this.userLogged = true;
-            this.id = user._id;
-            this.chatService.messagesSubject.subscribe(
-              (messages: any[]) => {
-                messages ? this.newMessages = messages.length : 0;
-              });
-          } else {
-            this.userLogged = false;
-            this.id = "";
-            this.newMessages = 0;
-          }
+    .subscribe(
+      (user) => {
+        if(user){
+          this.userLogged = true;
+        }
       });
   }
 
@@ -49,8 +40,6 @@ export class AppComponent implements OnInit {
       .subscribe(
         () => {
           this.userLogged = false;
-          this.id = "";
-          this.chatService.disconnect();
           this.router.navigate(['/login']);
       });
   }

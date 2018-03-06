@@ -26,7 +26,7 @@ export class MeetupListComponent implements OnInit {
           this.route
             .queryParams
             .subscribe(params => {
-              this.meetupService.get(params['city'])
+              this.meetupService.get()
                 .subscribe(meetups => {
                   this.meetups = meetups;
                 });

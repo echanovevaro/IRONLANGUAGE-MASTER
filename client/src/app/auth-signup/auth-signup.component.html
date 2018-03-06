@@ -27,14 +27,14 @@
       <div class="form-group">
         <label for="gender" class="control-label">Gender</label>
         <select class="form-control" name="gender" id="gender" [(ngModel)]="gender">
-          <option disabled="disabled">Select one gender</option>
+          <option value="">Select one gender</option>
           <option *ngFor="let gender of genders" [value]="gender">{{gender}}</option>
         </select>
       </div>
       <div class="form-group">
         <label for="city" class="control-label">City</label>
         <select class="form-control" name="city" id="city" [(ngModel)]="city">
-          <option disabled="disabled">Select one city</option>
+          <option value="">Select one city</option>
           <option *ngFor="let city of cities" [value]="city">{{city}}</option>
         </select>
       </div>

@@ -6,21 +6,17 @@
     <div>
       <h3>
         Profile
-        <small>{{status}}</small>
       </h3>
     </div>
     <div>
       <a *ngIf="currentUser._id == user._id" [routerLink]="['/edit']">edit <small class="glyphicon glyphicon-pencil"></small></a>
-      <a *ngIf="status == '(In your contact list)'" [routerLink]="['/relations', user._id]">new message <small class="glyphicon glyphicon-send"></small></a>
-      <a *ngIf="status == '(You have a request)'" href="javascript:;" (click)="accept()">accept <small class="glyphicon glyphicon-ok"></small></a>
-      <a *ngIf="status == '(Not related)'" href="javascript:;" (click)="askContact()">contact <small class="glyphicon glyphicon-link"></small></a>
     </div>
   </div>
   <div class="col-sm-4">
     <div class="list-group">
       <div class="list-group-item">
         <img [src]="BASE_URL + user.imageUrl" class="little-profile" />
-        <h4>{{user.username}}</h4>
+        <h4>{{user.name}}</h4>
       </div>
     </div>
     <ul class="list-group" *ngIf="user.languagesOffered && user.languagesOffered.length">
@@ -38,9 +34,6 @@
     <div class="list-group">
       <div class="list-group-item title">
         <span>Others</span>
-      </div>
-      <div class="list-group-item">
-        <span>{{user.name}}</span>
       </div>
       <div class="list-group-item">
         <span>{{user.city}}</span>
@@ -72,4 +65,4 @@
     </div>
   </div>
 </div>
-
+  

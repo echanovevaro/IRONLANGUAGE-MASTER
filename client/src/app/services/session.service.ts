@@ -8,7 +8,7 @@ import { Headers } from '@angular/http';
 
 let headers = new Headers({ 'Content-Type': 'application/json' });
 let options = new RequestOptions({ headers: headers, withCredentials: true });
-
+//whith credential true
 @Injectable()
 export class SessionService {
   BASE_URL: string = 'http://localhost:3000/api';
@@ -23,6 +23,7 @@ export class SessionService {
       .map(res => res.json())
       .catch(this.handleError);
   }
+  // cuandote devuelva el obserbable combiertelo en la versión Json del objeto //units
 
   login(user) {
     return this.http.post(`${this.BASE_URL}/login`, user, options)

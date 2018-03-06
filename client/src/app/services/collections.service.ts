@@ -8,6 +8,7 @@ import { Headers } from '@angular/http';
 
 let headers = new Headers({ 'Content-Type': 'application/json' });
 let options = new RequestOptions({ headers: headers, withCredentials: true });
+//espera credetials del server Ok
 
 @Injectable()
 export class CollectionsService {
@@ -15,7 +16,7 @@ export class CollectionsService {
   constructor(private http: Http) { }
 
   handleError(e) {
-    return Observable.throw(e.json().message);
+    return Observable.throw(e.message);
   }
 
   getLanguages() {
