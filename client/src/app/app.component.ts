@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from "rxjs/Rx";
 import { SessionService } from "./services/session.service";
+import { MessageService } from "./services/message.service";
 import { Router } from '@angular/router';
 import { NavigationEnd } from '@angular/router';
+import { ChatService } from './services/chat.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +12,8 @@ import { NavigationEnd } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  constructor(private sessionService: SessionService, private router: Router) { }
+  constructor(private sessionService: SessionService, private router: Router,
+    private messageService: MessageService, public chatService: ChatService) { }
   userLogged: boolean = false;
   id: string = "";
 
@@ -25,14 +28,18 @@ export class AppComponent implements OnInit {
   initialise() {
     this.sessionService.isLogged()
       .subscribe(
-      (user) => {
-        if (user) {
-          this.userLogged = true;
-          this.id = user._id;
-        } else {
-          this.userLogged = false;
-          this.id = "";
-        }
+        (user) => {
+          if (user) {
+            this.userLogged = true;
+            this.id = user._id;
+            this.messageService.getNews().subscribe(
+              (messages) => {
+                this.chatService.manageNews(messages);
+              });
+          } else {
+            this.userLogged = false;
+            this.id = "";
+          }
       });
   }
 
@@ -42,6 +49,7 @@ export class AppComponent implements OnInit {
         () => {
           this.userLogged = false;
           this.id = "";
+          this.chatService.disconnect();
           this.router.navigate(['/login']);
       });
   }

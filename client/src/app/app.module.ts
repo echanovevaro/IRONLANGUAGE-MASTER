@@ -7,6 +7,8 @@ import { CollectionsService } from "./services/collections.service";
 import { ProfileService } from "./services/profile.service";
 import { RelationService } from "./services/relation.service";
 import { MeetupService } from "./services/meetup.service";
+import { ChatService } from "./services/chat.service";
+import { MessageService } from "./services/message.service";
 import { RouterModule } from "@angular/router";
 import { FileSelectDirective } from "ng2-file-upload";
 import { routes } from './routes';
@@ -19,6 +21,7 @@ import { ProfileSearchComponent } from './profile-search/profile-search.componen
 import { RelationsComponent } from './relations/relations.component';
 import { ConversationComponent } from './conversation/conversation.component';
 import { MeetupComponent } from './meetup/meetup.component';
+import { MeetupChatComponent } from './meetup-chat/meetup-chat.component';
 import { MeetupListComponent } from './meetup-list/meetup-list.component';
 import { AgmCoreModule } from '@agm/core';
 import { MeetupDetailComponent } from './meetup-detail/meetup-detail.component'
@@ -36,7 +39,8 @@ import { MeetupDetailComponent } from './meetup-detail/meetup-detail.component'
     ConversationComponent,
     MeetupComponent,
     MeetupListComponent,
-    MeetupDetailComponent
+    MeetupDetailComponent,
+    MeetupChatComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +52,8 @@ import { MeetupDetailComponent } from './meetup-detail/meetup-detail.component'
       libraries: ['places']
     })
   ],
-  providers: [SessionService, CollectionsService, ProfileService, RelationService, MeetupService],
+  providers: [SessionService, CollectionsService, ProfileService,
+    RelationService, MeetupService, ChatService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

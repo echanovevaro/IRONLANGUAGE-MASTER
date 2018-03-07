@@ -13,6 +13,11 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
+        <li *ngIf="userLogged && chatService.news">
+            <a [routerLink]="['/relations']">
+              Messages received <small class="label badge-pill">{{chatService.news}}</small>
+            </a>
+        </li>
         <li *ngIf="userLogged" class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Menu <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -30,6 +35,5 @@
   </div>
 </nav>
 <div class="container container-body">
-
   <router-outlet></router-outlet>
 </div>

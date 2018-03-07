@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { SessionService } from "./../services/session.service";
 import { RelationService } from "./../services/relation.service";
+import { MessageService } from "./../services/message.service";
+import { ChatService } from "./../services/chat.service";
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 import * as _ from 'underscore';
 
 @Component({
@@ -9,14 +12,18 @@ import * as _ from 'underscore';
   templateUrl: './conversation.component.html',
   styleUrls: ['./conversation.component.css']
 })
-export class ConversationComponent implements OnInit {
+export class ConversationComponent implements OnInit, OnDestroy {
+  @ViewChild('chat') private chat: ElementRef;
   BASE_URL: string = 'http://localhost:3000';
   currentUser: any;
   contact: string;
-  messages: any;
   text: string = "";
   error: string = "";
-  constructor(private route: ActivatedRoute, private session: SessionService, private relation: RelationService, private router: Router) { }
+  subscription: Subscription;
+
+  constructor(private route: ActivatedRoute, private session: SessionService,
+    private relation: RelationService, private router: Router,
+    public chatService: ChatService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.session.isLogged()
@@ -29,22 +36,20 @@ export class ConversationComponent implements OnInit {
           this.route.params.subscribe(params => {
             if (params['id']) {
               this.contact = params['id'];
-              this.relation.getMessages()
+              this.messageService.getMessages(this.contact)
                 .subscribe(
-                (user) => {
-                  this.currentUser = user;
-                  this.messages = _.filter(this.currentUser.messages, function (message: any) {
-                    return message.from._id == this.contact || message.to._id == this.contact;
-                  }, this);
+                (messages) => {
+                  this.chatService.joinPrivateChat(this.contact, messages);
 
-                  this.messages = _.sortBy(this.messages, this.messages['created']).reverse();
-
-                  this.relation.chekMessages(this.contact)
-                    .subscribe(
-                    (user) => { this.currentUser = user; },
-                    (err) => {
-                      this.error = err;
+                  this.subscription = this.chatService.messageAdded.subscribe(
+                    (received) => {
+                      if (received) {
+                        this.checkMessages();
+                      }
+                      this.chat.nativeElement.scrollTop = 0;
                     });
+
+                    this.checkMessages();
                 },
                 (err) => {
                   this.error = err;
@@ -57,31 +62,37 @@ export class ConversationComponent implements OnInit {
       });
   }
 
-  newMessage() {
-    this.error = "";
-    if (!this.text) {
-      this.error = "Text is mandatory";
-    }
-    this.relation.newMessage(this.contact, this.text)
+  checkMessages() {
+    this.messageService.chekMessages(this.contact)
       .subscribe(
       (user) => {
         this.currentUser = user;
-        this.messages = _.filter(this.currentUser.messages, function (message: any) {
-          return message.from._id == this.contact || message.to._id == this.contact;
-        }, this);
-
-        this.messages = _.sortBy(this.messages, this.messages['created']).reverse();
-
-        this.relation.chekMessages(this.contact)
-          .subscribe(
-          (user) => { this.currentUser = user; },
-          (err) => {
-            this.error = err;
-          });
       },
       (err) => {
         this.error = err;
       });
+  }
+
+  newMessage() {
+    this.error = "";
+    if (!this.text) {
+      this.error = "Text is mandatory";
+    } else {
+      this.messageService.newMessage(this.contact, this.text)
+        .subscribe(
+        (message) => {
+          this.chatService.sendMessage(message);
+          this.text = '';
+        },
+        (err) => {
+          this.error = err;
+        });
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    this.chatService.leavePrivateChat();
   }
 
 }

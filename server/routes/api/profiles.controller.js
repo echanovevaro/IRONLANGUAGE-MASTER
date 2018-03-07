@@ -24,7 +24,7 @@ router.post("/", upload.single('file'), (req, res, next) => {
 
 	if (!req.file) {
 		if (!req.user) {
-			return res.status(500).json({ message: 'Not logged' });
+			return cb(new Error("Not logged"), false);
 		}
 		let message = validation(req);
 		if (message) {

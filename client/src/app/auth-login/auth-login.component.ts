@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from '../services/session.service';
+import { ChatService } from "./../services/chat.service";
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,7 +15,7 @@ export class AuthLoginComponent implements OnInit {
   };
   error: string;
 
-  constructor(private sessionService: SessionService, private router: Router) { }
+  constructor(private sessionService: SessionService, private chatService: ChatService, private router: Router) { }
 
   ngOnInit() {
     this.sessionService.isLogged()
@@ -30,16 +31,12 @@ export class AuthLoginComponent implements OnInit {
     this.error = "";
     this.sessionService.login(this.formInfo)
       .subscribe(
-      (user) => this.successCb(user),
-      (err) => this.errorCb(err)
-      );
-  }
-
-  errorCb(err) {
-    this.error = err;
-  }
-
-  successCb(user) {
-    this.router.navigate(['/private']);
+      (user) => {
+        this.router.navigate(['/private']);
+        this.chatService.connect(user._id);
+      },
+      (err) => {
+        this.error = err;
+      });
   }
 }

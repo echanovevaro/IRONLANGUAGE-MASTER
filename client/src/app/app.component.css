@@ -13,3 +13,10 @@
 .container-body {
   margin-top: 80px;
 }
+
+.label.badge-pill {
+  border-radius: 1em;
+  margin: 0 0.25em;
+  padding: .2em .6em;
+  background-color: #337ab7;
+}
