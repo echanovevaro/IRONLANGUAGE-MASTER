@@ -7,10 +7,11 @@ import { MeetupService } from "./../services/meetup.service";
 import { RelationService } from "./../services/relation.service";
 import * as io from 'socket.io-client';
 import * as _ from 'underscore';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ChatService {
-  private url = 'http://localhost:3000';
+  private url: string = environment.BASE_URL;
   private socket;
   private userId: string;
 
@@ -63,7 +64,7 @@ export class ChatService {
     const messagesChecked = _.reduce(this.messages, (total, msg) => {
       return msg.from._id == this.chatId && !msg.checked ? ++total : total;
     }, 0);
-    this.news -= messagesChecked;
+    this.news = this.news >= messagesChecked ? this.news - messagesChecked : 0;
   }
 
   leavePrivateChat() {

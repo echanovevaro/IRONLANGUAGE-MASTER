@@ -6,7 +6,14 @@ const Message = require('../models/message');
 const Meetup = require('../models/meetup');
 const MeetupMessage = require('../models/meetupMessage');
 
-mongoose.connect("mongodb://localhost:27017/iron-language");
+mongoose.connect("mongodb://localhost:27017/iron-language")
+	.then((db) => {
+		console.log('Connected to Server successfully!');
+	})
+	.catch((err) => {
+		console.log('Unable to connect to the server. Please start the server. Error:', err);
+	});
+
 var salt = bcrypt.genSaltSync(bcryptSalt);
 const password = "pass";
 var encryptedPass = bcrypt.hashSync(password, salt);

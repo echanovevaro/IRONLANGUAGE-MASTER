@@ -13,7 +13,7 @@ import * as _ from 'underscore';
 })
 export class MeetupChatComponent implements OnInit, OnDestroy {
   @ViewChild('chat') private chat: ElementRef;
-  BASE_URL: String = 'http://localhost:3000';
+
   currentUser: any;
   id: string;
   text: string = "";
@@ -75,7 +75,11 @@ export class MeetupChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.chatService.leaveChat();
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    if (this.chatService) {
+      this.chatService.leaveChat();
+    }
   }
 }
