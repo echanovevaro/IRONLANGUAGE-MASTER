@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from "./../services/session.service";
 import { ProfileService } from "./../services/profile.service";
+import { RelationService } from "./../services/relation.service";
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -9,15 +10,13 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  BASE_URL:string='http://localhost:3000'
+  BASE_URL: string = 'http://localhost:3000';
   currentUser: any;
   user: any;
   error: string;
 
-  constructor(private session: SessionService, private profile: ProfileService, 
-    private router: Router, private route: ActivatedRoute ) { }
-  //contructor depende se si necesitas sevicios dentro
-  // . suscribe esperar a que ternine, metodo pra obsebables
+  constructor(private session: SessionService, private relation: RelationService, private profile: ProfileService, private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.session.isLogged()
@@ -42,5 +41,22 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  
+  accept() {
+    this.relation.accept(this.user._id)
+      .subscribe(
+        (user) => {
+          this.currentUser = user;
+          this.router.navigate(['/relations']);
+      });
+  }
+
+  askContact() {
+    this.relation.askContact(this.user._id)
+      .subscribe(
+      (user) => {
+        this.user = user;
+        this.router.navigate(['/relations']);
+      });
+  }
+
 }

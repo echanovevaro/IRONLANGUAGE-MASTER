@@ -6,10 +6,17 @@
     <div>
       <h3>
         Profile
+        <small *ngIf="currentUser._id != user._id && currentUser.relations && currentUser.relations.indexOf(user._id) != -1">(In your contact list)</small>
+        <small *ngIf="currentUser._id != user._id && currentUser.petitions.indexOf(user._id) != -1">(You have a request)</small>
+        <small *ngIf="currentUser._id != user._id && currentUser.petitions.indexOf(user._id) == -1 && currentUser.relations.indexOf(user._id) == -1 && user.petitions.indexOf(currentUser._id) != -1">(Waiting to contact)</small>
+        <small *ngIf="currentUser._id != user._id && currentUser.petitions.indexOf(user._id) == -1 && currentUser.relations.indexOf(user._id) == -1 && user.petitions.indexOf(currentUser._id) == -1">(Not related)</small>
       </h3>
     </div>
     <div>
       <a *ngIf="currentUser._id == user._id" [routerLink]="['/edit']">edit <small class="glyphicon glyphicon-pencil"></small></a>
+      <a *ngIf="currentUser._id != user._id && currentUser.relations.indexOf(user._id) != -1" [routerLink]="['/relations', user._id]">new message <small class="glyphicon glyphicon-send"></small></a>
+      <a *ngIf="currentUser._id != user._id && currentUser.petitions.indexOf(user._id) != -1" href="javascript:;" (click)="accept()">accept <small class="glyphicon glyphicon-ok"></small></a>
+      <a *ngIf="currentUser._id != user._id && currentUser.petitions.indexOf(user._id) == -1 && currentUser.relations.indexOf(user._id) == -1 && user.petitions.indexOf(currentUser._id) == -1" href="javascript:;" (click)="askContact()">contact <small class="glyphicon glyphicon-link"></small></a>
     </div>
   </div>
   <div class="col-sm-4">
@@ -65,4 +72,4 @@
     </div>
   </div>
 </div>
-  
+

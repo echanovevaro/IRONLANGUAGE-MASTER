@@ -47,7 +47,7 @@
         Place
       </div>
       <div class="list-group-item">
-        <div *ngIf="meetup.place"><span>{{meetup.place}}</span></div>
+        <div *ngIf="meetup.palce"><span>{{meetup.palce}}</span></div>
         <div class="vertical-space"><span>{{meetup.address}}</span></div>
         <div *ngIf="meetup.location">
           <agm-map [latitude]="meetup.location.lat" [longitude]="meetup.location.lng" [zoom]="16">

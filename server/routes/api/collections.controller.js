@@ -8,7 +8,8 @@ const cities = User.schema.path('city').enumValues;
 const languages = User.schema.path('languagesOffered').options.enum;
 
 router.get("/languages", (req, res, next) => {
-	return res.status(200).json(languages);
+	const langs = languages;
+	return res.status(200).json(langs);
 });
 
 router.get("/cities", (req, res, next) => {

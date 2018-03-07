@@ -30,8 +30,16 @@ export class AuthLoginComponent implements OnInit {
     this.error = "";
     this.sessionService.login(this.formInfo)
       .subscribe(
-      (user) => {this.router.navigate(['/private']);},
-      (err) => {this.error = err;}
+      (user) => this.successCb(user),
+      (err) => this.errorCb(err)
       );
+  }
+
+  errorCb(err) {
+    this.error = err;
+  }
+
+  successCb(user) {
+    this.router.navigate(['/private']);
   }
 }

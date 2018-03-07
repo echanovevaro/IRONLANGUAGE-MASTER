@@ -16,7 +16,7 @@ router.post('/', function (req, res, next) {
 
 	if (req.body.languages) {
 		meetupInfo["languages"] = JSON.parse(req.body.languages);
-	}//angular con formulario y viceversa
+	}
 
 	let newMeetup = Meetup(meetupInfo);
 
@@ -27,11 +27,12 @@ router.post('/', function (req, res, next) {
 		});
 });
 
-router.get('/', function (req, res, next) {
-//mas grande que la fecha actual, operador de mongo
-//Para eso necesitamos hacer uso del método populate de MongoDB que también implementa la librería mongoose.
-//quiero popular el campo mettup owner q es de tipo user
-	Meetup.find({date: { $gt: new Date() }})
+router.get('/:city?', function (req, res, next) {
+	let query = { date: { $gt: new Date() } };
+	if (req.params.city) {
+		query['city'] = req.params.city;
+	}
+	Meetup.find(query)
 		.populate({ path: 'owner', model: 'User' })
 		.exec()
 		.then(meetups => res.status(200).json(meetups))
@@ -62,8 +63,18 @@ router.post('/assist', function (req, res, next) {
 });
 
 router.get('/:id/assist', function (req, res, next) {
-//todos los eventos a los que vayas a asistir posteriores a la fecha actual
+
 	Meetup.find({ date: { $gt: new Date() }, assist: req.params.id })
+		.populate({ path: 'owner assist', model: 'User' })
+		.then(meetups => res.status(200).json(meetups))
+		.catch(e => {
+			return res.status(500).json({ message: "Something went wrong" });
+		});;
+});
+
+router.get('/:id/own', function (req, res, next) {
+
+	Meetup.find({ date: { $gt: new Date() }, owner: req.params.id })
 		.populate({ path: 'owner assist', model: 'User' })
 		.then(meetups => res.status(200).json(meetups))
 		.catch(e => {

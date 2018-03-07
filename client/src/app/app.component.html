@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
       </button>
 
-      <a class="navbar-brand" href="/">IRONLANGUAGE</a>
+      <a class="navbar-brand" href="/">IDIOMHACK</a>
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -16,6 +16,8 @@
         <li *ngIf="userLogged" class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Menu <span class="caret"></span></a>
           <ul class="dropdown-menu">
+            <li><a [routerLink]="['/dashboard']">Dashboard</a></li>
+            <li><a [routerLink]="['/relations']">Relations</a></li>
             <li><a [routerLink]="['/profile']">Public profile</a></li>
             <li><a [routerLink]="['/search']">Users</a></li>
             <li><a [routerLink]="['/meetup/list']">Meetups</a></li>
@@ -27,7 +29,7 @@
     </div>
   </div>
 </nav>
-<div class="container">
+<div class="container container-body">
 
-  <router-outlet></router-outlet>  <!-- pinta el html de los componentes q se llaman en las rutas*/ -->
+  <router-outlet></router-outlet>
 </div>

@@ -58,11 +58,11 @@ const userSchema = new Schema({
 	},
 	messages: [{
 		from: {
-			type: Schema.Types.ObjectId,	//User entero no me deja vale con el id? probado meter objeto completo.
+			type: Schema.Types.ObjectId,	
 			ref: 'User'
 		},
 		to: {
-			type: Schema.Types.ObjectId,	//User entero no me deja vale con el id?
+			type: Schema.Types.ObjectId,	
 			ref: 'User'
 		},
 		text: {
@@ -79,7 +79,8 @@ const userSchema = new Schema({
 		}
 	}]
 }, {
-		timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
+		timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
+		usePushEach: true
 });
 
 const User = mongoose.model("User", userSchema);

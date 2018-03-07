@@ -15,7 +15,7 @@ import { } from '@types/googlemaps'
 export class MeetupComponent implements OnInit {
 
   @ViewChild('search') public searchElement: ElementRef;
-//busca el search y lo guarda en searchElemen.
+
   meetupInfo: any = {};
   error: String;
   description: "";

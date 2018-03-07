@@ -24,8 +24,8 @@ export class MeetupService {
       .catch(this.handleError);
   }
 
-  get() {
-    return this.http.get(`${this.BASE_URL}`, options)
+  get(city) {
+    return this.http.get(`${this.BASE_URL}/${city ? city : ""}`, options)
       .map((res) => res.json())
       .catch(this.handleError);
   }
@@ -44,6 +44,12 @@ export class MeetupService {
 
   getAssist(userId) {
     return this.http.get(`${this.BASE_URL}/${userId}/assist`, options)
+      .map((res) => res.json())
+      .catch(this.handleError);
+  }
+
+  getOwned(userId) {
+    return this.http.get(`${this.BASE_URL}/${userId}/own`, options)
       .map((res) => res.json())
       .catch(this.handleError);
   }
