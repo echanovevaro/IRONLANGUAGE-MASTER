@@ -73,7 +73,12 @@
       </div>
       <div class="list-group-item" *ngFor="let user of users">
         <div class="row container-separated-items">
-          <div class="col-xs-4 col-sm-2"><a [routerLink]="['/profile', {id: user._id}]">{{user.username}}</a></div>
+          <div class="col-xs-4 col-sm-2">
+              <a [routerLink]="['/profile', {id: user._id}]">
+                <img class="little-profile" [src]="user.imageUrl" />
+              </a>
+              <h5><a [routerLink]="['/profile', {id: user._id}]">{{user.username}}</a></h5>
+          </div>
           <div class="hidden-xs col-sm-4"><span>{{user.name}}</span></div>
           <div class="col-xs-4 col-sm-3 wrappable-content">
             <div *ngFor="let lang of user.languagesOffered"><span>{{lang}}</span></div>

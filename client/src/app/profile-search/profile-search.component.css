@@ -34,3 +34,11 @@
 .wrappable-content > * {
   padding: 5px;
 }
+
+.little-profile {
+  object-fit: cover;
+  object-position: center;
+  height: 50px;
+  width: 50px;
+  border-radius: 3px;
+}
