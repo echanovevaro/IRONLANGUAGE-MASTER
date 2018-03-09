@@ -25,8 +25,8 @@ export class MeetupService {
       .catch(this.handleError);
   }
 
-  get(city) {
-    return this.http.get(`${this.BASE_URL}${city ? '/city' : ''}`, options)
+  get() {
+    return this.http.get(`${this.BASE_URL}`, options)
       .map((res) => res.json())
       .catch(this.handleError);
   }
@@ -37,20 +37,14 @@ export class MeetupService {
       .catch(this.handleError);
   }
 
-  assist(meetupId, userId) {
-    return this.http.post(`${this.BASE_URL}/assist`, {meetup: meetupId, user: userId} ,options)
+  assist(meetupId) {
+    return this.http.post(`${this.BASE_URL}/assist`, {meetup: meetupId} ,options)
       .map((res) => res.json())
       .catch(this.handleError);
   }
 
-  getAssist(userId) {
-    return this.http.get(`${this.BASE_URL}/${userId}/assist`, options)
-      .map((res) => res.json())
-      .catch(this.handleError);
-  }
-
-  getOwned(userId) {
-    return this.http.get(`${this.BASE_URL}/${userId}/own`, options)
+  getAssist() {
+    return this.http.get(`${this.BASE_URL}/assist`, options)
       .map((res) => res.json())
       .catch(this.handleError);
   }

@@ -16,8 +16,9 @@ export class ProfileComponent implements OnInit {
   user: any;
   error: String;
 
-  constructor(private session: SessionService, private relation: RelationService, private profile: ProfileService, private router: Router,
-    private route: ActivatedRoute) { }
+  constructor(private session: SessionService,
+    private relation: RelationService, private profile: ProfileService,
+    private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.session.isLogged()

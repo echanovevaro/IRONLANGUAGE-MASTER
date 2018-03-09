@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { SessionService } from "./../services/session.service";
-import { RelationService } from "./../services/relation.service";
 import { MessageService } from "./../services/message.service";
 import { ChatService } from "./../services/chat.service";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,8 +21,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   constructor(private route: ActivatedRoute, private session: SessionService,
-    private relation: RelationService, private router: Router,
-    public chatService: ChatService, private messageService: MessageService) { }
+    private router: Router, public chatService: ChatService, private messageService: MessageService) { }
 
   ngOnInit() {
     this.session.isLogged()
@@ -39,13 +37,11 @@ export class ConversationComponent implements OnInit, OnDestroy {
               this.messageService.getMessages(this.contact)
                 .subscribe(
                 (messages) => {
-                  this.chatService.joinPrivateChat(this.contact, messages);
+                  this.chatService.connect(this.currentUser._id, messages);
 
                   this.subscription = this.chatService.messageAdded.subscribe(
                     (received) => {
-                      if (received) {
-                        this.checkMessages();
-                      }
+                      this.checkMessages();
                       this.chat.nativeElement.scrollTop = 0;
                     });
 
@@ -82,6 +78,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
         .subscribe(
         (message) => {
           this.chatService.sendMessage(message);
+          this.chat.nativeElement.scrollTop = 0;
           this.text = '';
         },
         (err) => {
@@ -95,7 +92,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
     if (this.chatService) {
-      this.chatService.leavePrivateChat();
+      this.chatService.disconnect();
     }
   }
 

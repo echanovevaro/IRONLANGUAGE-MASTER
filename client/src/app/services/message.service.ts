@@ -36,10 +36,4 @@ export class MessageService {
       .map(res => res.json())
       .catch(this.handleError);
   }
-
-  getNews() {
-    return this.http.get(`${this.BASE_URL}/news`, options)
-      .map(res => res.json())
-      .catch(this.handleError);
-  }
 }

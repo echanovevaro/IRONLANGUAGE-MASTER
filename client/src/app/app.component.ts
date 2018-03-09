@@ -11,10 +11,9 @@ import { ChatService } from './services/chat.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  constructor(private sessionService: SessionService, private router: Router,
-    public chatService: ChatService) { }
   userLogged: boolean = false;
-  id: string = "";
+
+  constructor(private sessionService: SessionService, private router: Router) { }
 
   ngOnInit() {
     this.router.events.subscribe((e: any) => {
@@ -30,10 +29,8 @@ export class AppComponent implements OnInit {
         (user) => {
           if (user) {
             this.userLogged = true;
-            this.id = user._id;
           } else {
             this.userLogged = false;
-            this.id = "";
           }
       });
   }
@@ -43,8 +40,6 @@ export class AppComponent implements OnInit {
       .subscribe(
         () => {
           this.userLogged = false;
-          this.id = "";
-          this.chatService.disconnect();
           this.router.navigate(['/login']);
       });
   }

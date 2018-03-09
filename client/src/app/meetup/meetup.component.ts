@@ -30,7 +30,9 @@ export class MeetupComponent implements OnInit {
   cities: String[];
   availableLanguages: String[];
 
-  constructor(private mapsAPILoader: MapsAPILoader, private meetupService: MeetupService, private session: SessionService, private collectionsService: CollectionsService, private router: Router) { }
+  constructor(private mapsAPILoader: MapsAPILoader,
+    private meetupService: MeetupService, private session: SessionService,
+    private collectionsService: CollectionsService, private router: Router) { }
 
   ngOnInit() {
     this.session.isLogged()

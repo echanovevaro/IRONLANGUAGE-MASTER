@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from "./../services/session.service";
 import { RelationService } from "./../services/relation.service";
-import { ChatService } from "./../services/chat.service";
 import { Router } from '@angular/router';
-import * as _ from 'underscore';
 
 @Component({
   selector: 'app-relations',
@@ -12,10 +10,10 @@ import * as _ from 'underscore';
 })
 export class RelationsComponent implements OnInit {
   currentUser: any;
-  messages: any;
   error: string = "";
-  constructor(private session: SessionService, private relation: RelationService,
-    public chatService: ChatService, private router: Router) { }
+
+  constructor(private session: SessionService,
+    private relation: RelationService, private router: Router) { }
 
   ngOnInit() {
     this.session.isLogged()
@@ -27,7 +25,6 @@ export class RelationsComponent implements OnInit {
           this.relation.getRelations().subscribe(
             (user) => {
               this.currentUser = user;
-              this.chatService.viewRelations(user.relations);
             },
             (err) => {
               this.error = err;
@@ -42,7 +39,6 @@ export class RelationsComponent implements OnInit {
       .subscribe(
       (user) => {
         this.currentUser = user;
-        this.chatService.viewRelations(user.relations);
       },
       (err) => {
         this.error = err;

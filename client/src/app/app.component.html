@@ -13,18 +13,12 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li *ngIf="userLogged && chatService.news">
-            <a [routerLink]="['/relations']">
-              Messages received <small class="label badge-pill">{{chatService.news}}</small>
-            </a>
-        </li>
         <li *ngIf="userLogged" class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Menu <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a [routerLink]="['/dashboard']">Dashboard</a></li>
-            <li><a [routerLink]="['/relations']">Relations</a></li>
-            <li><a [routerLink]="['/profile']">Public profile</a></li>
+            <li><a [routerLink]="['/private']">Public profile</a></li>
             <li><a [routerLink]="['/search']">Users</a></li>
+            <li><a [routerLink]="['/relations']">Relations</a></li>
             <li><a [routerLink]="['/meetup/list']">Meetups</a></li>
             <li><a [routerLink]="['/meetup/new']">New meetup</a></li>
           </ul>

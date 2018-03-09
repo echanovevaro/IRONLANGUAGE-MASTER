@@ -11,9 +11,12 @@ router.post('/', function (req, res, next) {
 		date: req.body.date,
 		place: req.body.place,
 		address: req.body.address,
-		location: req.body.location,
-		city: req.body.city
+		location: req.body.location
 	};
+	
+	if (req.body.city) {
+		meetupInfo["city"] = req.body.city;
+	}
 
 	if (req.body.languages) {
 		meetupInfo["languages"] = JSON.parse(req.body.languages);
@@ -30,12 +33,8 @@ router.post('/', function (req, res, next) {
 		});
 });
 
-router.get('/:city?', function (req, res, next) {
-	let query = { date: { $gt: new Date() } };
-	if (req.params.city) {
-		query['city'] = req.params.city;
-	}
-	Meetup.find(query)
+router.get('/', function (req, res, next) {
+	Meetup.find({ date: { $gt: new Date() } })
 		.populate({ path: 'owner', model: 'User' })
 		.exec()
 		.then(meetups => {
@@ -43,7 +42,7 @@ router.get('/:city?', function (req, res, next) {
 		})
 		.catch(e => {
 			return res.status(500).json({ message: "Something went wrong" });
-		});;
+		});
 });
 
 router.get('/detail/:id', function (req, res, next) {
@@ -56,36 +55,24 @@ router.get('/detail/:id', function (req, res, next) {
 		})
 		.catch(e => {
 			return res.status(500).json({ message: "Something went wrong" });
-		});;
+		});
 });
 
 router.post('/assist', function (req, res, next) {
 
-	Meetup.findByIdAndUpdate(req.body.meetup, { $addToSet: { assist: req.body.user } }, {new: true})
+	Meetup.findByIdAndUpdate(req.body.meetup, { $addToSet: { assist: req.user._id } }, {new: true})
 		.populate({ path: 'owner assist', model: 'User' })
 		.then(meetup => {
 			return res.status(200).json(meetup);
 		})
 		.catch(e => {
 			return res.status(500).json({ message: "Something went wrong" });
-		});;
+		});
 });
 
-router.get('/:id/assist', function (req, res, next) {
+router.get('/assist', function (req, res, next) {
 
-	Meetup.find({ date: { $gt: new Date() }, assist: req.params.id })
-		.populate({ path: 'owner assist', model: 'User' })
-		.then(meetups => {
-			return res.status(200).json(meetups);
-		})
-		.catch(e => {
-			return res.status(500).json({ message: "Something went wrong" });
-		});;
-});
-
-router.get('/:id/own', function (req, res, next) {
-
-	Meetup.find({ date: { $gt: new Date() }, owner: req.params.id })
+	Meetup.find({ date: { $gt: new Date() }, assist: req.user._id })
 		.populate({ path: 'owner assist', model: 'User' })
 		.then(meetups => {
 			return res.status(200).json(meetups);

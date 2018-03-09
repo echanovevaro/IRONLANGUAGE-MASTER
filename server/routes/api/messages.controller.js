@@ -53,16 +53,6 @@ router.post('/:id', function (req, res, next) {
 		});
 });
 
-router.get('/news', function (req, res, next) {
-	Message.count({ to: req.user._id, checked: false })
-		.then(messages => {
-			return res.status(200).json(messages);
-		})
-		.catch(err => {
-			return res.status(500).json({ message: "Somethihg went wrong" });
-		});
-});
-
 router.get('/:id', function (req, res, next) {
 	Message.find()
 		.and([

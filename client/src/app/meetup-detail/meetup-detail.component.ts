@@ -13,7 +13,9 @@ export class MeetupDetailComponent implements OnInit {
   meetup: any;
   currentUser: any;
   assistant: boolean;
-  constructor(private meetupService: MeetupService, private session: SessionService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private meetupService: MeetupService,
+    private session: SessionService, private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.session.isLogged()
@@ -36,7 +38,7 @@ export class MeetupDetailComponent implements OnInit {
   }
 
   assist() {
-    this.meetupService.assist(this.meetup._id, this.currentUser._id)
+    this.meetupService.assist(this.meetup._id)
       .subscribe(
       (meetup) => {
         this.meetup = meetup;

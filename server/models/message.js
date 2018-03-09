@@ -21,8 +21,7 @@ const messageSchema = new Schema({
 		default: false
 	}
 }, {
-	timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
-	usePushEach: true
+	timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
 });
 
 const Message = mongoose.model("Message", messageSchema);

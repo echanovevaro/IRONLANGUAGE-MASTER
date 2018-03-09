@@ -31,7 +31,10 @@ export class ProfileSearchComponent implements OnInit {
   cities: string[];
   genders: string[];
 
-  constructor(private profileService: ProfileService, private sessionService: SessionService, private collectionsService: CollectionsService, private router: Router) { }
+  constructor(private profileService: ProfileService,
+    private sessionService: SessionService,
+    private collectionsService: CollectionsService,
+    private router: Router) { }
 
   ngOnInit() {
     this.sessionService.isLogged()

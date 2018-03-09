@@ -15,7 +15,6 @@ import { routes } from './routes';
 import { AppComponent } from './app.component';
 import { AuthLoginComponent } from './auth-login/auth-login.component';
 import { AuthSignupComponent } from './auth-signup/auth-signup.component';
-import { MyPrivatePageComponent } from './my-private-page/my-private-page.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileSearchComponent } from './profile-search/profile-search.component';
 import { RelationsComponent } from './relations/relations.component';
@@ -31,7 +30,6 @@ import { MeetupDetailComponent } from './meetup-detail/meetup-detail.component'
     AppComponent,
     AuthLoginComponent,
     AuthSignupComponent,
-    MyPrivatePageComponent,
     FileSelectDirective,
     ProfileComponent,
     ProfileSearchComponent,

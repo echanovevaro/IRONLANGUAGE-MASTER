@@ -38,7 +38,8 @@ export class MeetupChatComponent implements OnInit, OnDestroy {
               this.meetupService.getMessages(this.id)
                 .subscribe(
                 (messages) => {
-                  this.chatService.joinChat(this.id, messages);
+                  this.chatService.connect(this.currentUser._id, messages);
+                  this.chatService.joinRoom(this.id)
                   this.subscription = this.chatService.messageAdded.subscribe(
                     (added) => {
                       this.chat.nativeElement.scrollTop = 0;
@@ -63,8 +64,7 @@ export class MeetupChatComponent implements OnInit, OnDestroy {
       this.meetupService.sendMessage({ meetup: this.id, from: this.currentUser._id, text: this.text })
         .subscribe(
         (msg) => {
-          this.chatService.messages.unshift(msg);
-          this.chatService.updateChat(msg);
+          this.chatService.updateRoom(msg);
           this.chat.nativeElement.scrollTop = 0;
           this.text = '';
         },
@@ -79,7 +79,7 @@ export class MeetupChatComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
     if (this.chatService) {
-      this.chatService.leaveChat();
+      this.chatService.disconnect();
     }
   }
 }
